@@ -483,6 +483,12 @@
          "metadata": {
             "description": "Username for your Weblogic domain name"
          }
+      },
+      "dataScriptbase64": {
+         "type": "string",
+         "metadata": {
+            "description": "Username for your Weblogic domain name"
+         }
       }
    },
    "variables": {
@@ -582,7 +588,10 @@
                },
                "wlsUserName": {
                   "value": "[parameters('wlsUserName')]"
-               }
+               },
+               "dataScriptbase64": {
+                  "value": "[parameters('dataScriptbase64')]"
+               } 
             }
          }
       },
