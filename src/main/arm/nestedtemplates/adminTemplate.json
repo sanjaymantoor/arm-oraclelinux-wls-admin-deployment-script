@@ -147,12 +147,6 @@
          "metadata": {
             "description": "Username for your Weblogic domain name"
          }
-      },
-      "dataScriptbase64": {
-         "type": "string",
-         "metadata": {
-            "description": "password details as encrypted file"
-         }
       }
    },
    "variables": {
