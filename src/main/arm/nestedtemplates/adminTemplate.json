@@ -177,6 +177,7 @@
       "name_networkSecurityGroup": "[concat(parameters('dnsLabelPrefix'), '-nsg')]",
       "name_nic": "adminServerVM_NIC",
       "name_publicIPAddress": "adminServerVM_PublicIP",
+      "name_invokeScript": "invokeSetupWLSDomain.sh",
       "name_scriptFile": "setupAdminDomain.sh",
       "name_storageAccount": "[concat(take(replace(parameters('guidValue'),'-',''),6),'olvm')]",
       "name_share": "wlsshare",
@@ -186,7 +187,8 @@
       "ref_subnet": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('name_virtualNetwork'), variables('name_subnet'))]",
       "ref_storage": "[resourceId('Microsoft.Storage/storageAccounts', variables('name_storageAccount'))]",
       "ref_fileService": "[resourceId('Microsoft.Storage/storageAccounts/fileServices', variables('name_storageAccount'), 'default')]",
-      "ref_fileShare": "[resourceId('Microsoft.Storage/storageAccounts/fileServices/shares', variables('name_storageAccount'), 'default',variables('name_share'))]"
+      "ref_fileShare": "[resourceId('Microsoft.Storage/storageAccounts/fileServices/shares', variables('name_storageAccount'), 'default',variables('name_share'))]",
+      "const_arguments": "[concat(parameters('wlsDomainName'),' ',parameters('wlsUserName'),' ',parameters('wlsUserName'),' ',parameters('wlsPassword'),' ',parameters('adminVMName'),' ',variables('const_wlsHome'),' ',variables('name_storageAccount'),' ',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('name_storageAccount')), '2019-04-01').keys[0].value,' ',variables('const_mountPointPath'),' ',string(parameters('enableHTTPAdminListenPort')),' ',if(parameters('enableCustomDNS'), parameters('customDNSName'), reference(variables('name_publicIPAddress')).dnsSettings.fqdn),' ',parameters('dataScriptbase64'))]"
    },
    "resources": [
       {
@@ -425,29 +427,20 @@
          }
       },
       {
-         "name": "[concat(parameters('adminVMName'),'/newuserscript')]",
-         "type": "Microsoft.Compute/virtualMachines/extensions",
-         "apiVersion": "${azure.apiVersion}",
-         "location": "[parameters('location')]",
-         "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines/', parameters('adminVMName'))]",
-            "[variables('ref_fileShare')]"
-         ],
+         "type": "Microsoft.Resources/deploymentScripts",
+         "apiVersion": "2020-10-01",
+         "name": "runAdminSetup",
+         "location": "[resourceGroup().location]",
+         "kind": "AzureCLI",
          "properties": {
-            "publisher": "Microsoft.Azure.Extensions",
-            "type": "CustomScript",
-            "typeHandlerVersion": "2.0",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-               "fileUris": [
-                  "[uri(parameters('_artifactsLocationAdminTemplate'), concat('../scripts/', variables('name_scriptFile'), parameters('_artifactsLocationSasToken')))]"
-               ]
-            },
-            "protectedSettings": {
-               "commandToExecute": "[concat('sh',' ',variables('name_scriptFile'),' ',parameters('wlsDomainName'),' ',parameters('wlsUserName'),' ',parameters('wlsPassword'),' ',parameters('adminVMName'),' ', variables('const_wlsHome'),' ',variables('name_storageAccount'),' ',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('name_storageAccount')), '2019-04-01').keys[0].value,' ',variables('const_mountPointPath'),' ',string(parameters('enableHTTPAdminListenPort')),' ', if(parameters('enableCustomDNS'), parameters('customDNSName'), reference(variables('name_publicIPAddress')).dnsSettings.fqdn), ' ',parameters('dataScriptbase64'))]"
-            }
-         }
-      },
+                  "azCliVersion": "2.9.1",
+                  "arguments": "[variables('const_arguments')]",
+                  "primaryScriptUri": "[uri(parameters('_artifactsLocationAdminTemplate'), concat('../scripts/', variables('name_invokeScript'), parameters('_artifactsLocationSasToken')))]",
+                  "supportingScriptUris": "[uri(parameters('_artifactsLocationAdminTemplate'), concat('../scripts/', variables('name_scriptFile'), parameters('_artifactsLocationSasToken')))]",
+                  "cleanupPreference": "Always",
+                  "retentionInterval": "P1D"
+        }
+	  },
       {
          "type": "Microsoft.Resources/deployments",
          "apiVersion": "${azure.apiVersion}",
