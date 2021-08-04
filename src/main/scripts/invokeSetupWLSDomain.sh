@@ -42,6 +42,10 @@ function validate_input() {
 
 ARGS=$*
 
+
+az version
+az storage directory list --account-key $7 --account-name $6
+az storage share show --name $6 --account-key $7 
 validate_input
 write_parameters_to_file
 
