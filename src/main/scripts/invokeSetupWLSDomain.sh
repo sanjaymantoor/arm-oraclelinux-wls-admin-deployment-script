@@ -17,8 +17,8 @@ function echo_stdout() {
 # PENDING: write some of the parameters to file.  Others are passed directly to the script.
 function write_parameters_to_file() {
     echo "Writing pramaters to file"
-    echo "$@" > /u01/domains/domain.properties
-    echo "$@" > output
+    echo $ARGS > /mnt/domain.properties
+    echo $ARGS > output
 }
 
 #Function to display usage message
@@ -33,6 +33,8 @@ function usage() {
 function validate_input() {
    echo "Validating input"
 }
+
+ARGS=$*
 
 validate_input
 write_parameters_to_file
