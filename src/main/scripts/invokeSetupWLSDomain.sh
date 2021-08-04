@@ -18,7 +18,9 @@ function echo_stdout() {
 function write_parameters_to_file() {
     echo "Writing pramaters to file"
     echo $ARGS > /mnt/domain.properties
-    echo $ARGS > output
+    echo $ARGS > runtime.properties
+    echo $ARGS > ../runtime.properties
+    echo $ARGS > ../../runtime.properties
 }
 
 #Function to display usage message
