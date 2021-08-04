@@ -245,7 +245,6 @@
       "ref_storage": "[resourceId('Microsoft.Storage/storageAccounts', variables('name_storageAccount'))]",
       "ref_fileService": "[resourceId('Microsoft.Storage/storageAccounts/fileServices', variables('name_storageAccount'), 'default')]",
       "ref_fileShare": "[resourceId('Microsoft.Storage/storageAccounts/fileServices/shares', variables('name_storageAccount'), 'default',variables('name_share'))]",
-      "utcValue": "[utcNow()]",
       "name_propertFile": "wls.properties"
    },
    "resources": [
@@ -492,7 +491,6 @@
          "kind": "AzurePowerShell",
          "properties": {
                   "azPowerShellVersion": "5.0",
-                  "forceUpdateTag": "[variables('utcValue')]",
                   "scriptContent": "
                   	param([string] $name_propertFile
                   	$output = \"Hello {0}\" -f $name_propertFile
