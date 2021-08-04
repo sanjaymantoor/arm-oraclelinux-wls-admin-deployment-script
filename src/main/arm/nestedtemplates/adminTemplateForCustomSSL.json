@@ -490,7 +490,7 @@
          "location": "[resourceGroup().location]",
          "kind": "AzureCLI",
          "properties": {
-                  "azPowerShellVersion": "5.0",
+                  "azCliVersion": "2.9.1",
                   "storageAccountSettings": {
                      	"storageAccountName": "[variables('name_storageAccount')]",
       					"storageAccountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('name_storageAccount')), '2019-06-01').keys[0].value]"
