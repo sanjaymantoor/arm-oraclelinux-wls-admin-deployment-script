@@ -42,10 +42,12 @@ function validate_input() {
 
 ARGS=$*
 
-
-az version
-az storage directory list --account-key $7 --account-name $6
-az storage share show --name $6 --account-key $7 
+echo "Executing azure cli version"
+az version > execout.txt
+echo "Executing azure storage directory list"
+az storage directory list --account-key $7 --account-name $6 >> execout.txt
+echo "Executing azure storage share show"
+az storage share show --name $6 --account-key $7 >>  execout.txt
 validate_input
 write_parameters_to_file
 
