@@ -1,4 +1,4 @@
-# Copyright (c) 2019, 2020, Oracle Corporation and/or its affiliates.
+# Copyright (c) 2021, Oracle Corporation and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 echo "Script starts"
@@ -14,10 +14,11 @@ function echo_stdout() {
     echo "$@" >>stdout
 }
 
-# PENDING(edburns): write some of the parameters to file.  Others are passed directly to the script.
+# PENDING: write some of the parameters to file.  Others are passed directly to the script.
 function write_parameters_to_file() {
+    echo "Writing pramaters to file"
+    pwd
 }
-
 
 #Function to display usage message
 function usage() {
@@ -29,11 +30,13 @@ function usage() {
 
 #Function to validate input
 function validate_input() {
-
+   echo "Validating input"
 }
 
 validate_input
+write_parameters_to_file
 
 # invoke the setupWLSDomain passing the parameters and the file
 
 exit $exitCode
+
