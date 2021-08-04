@@ -16,10 +16,14 @@ function echo_stdout() {
 
 # PENDING: write some of the parameters to file.  Others are passed directly to the script.
 function write_parameters_to_file() {
-    echo "Writing pramaters to file"
-    echo $ARGS > /mnt/domain.properties
+    echo "Writing pramaters to file /mnt/runtime.properties"
+    echo $ARGS > /mnt/runtime.properties
+    localDir`pwd`
+    echo "Writing pramaters to file ${localDir}/runtime.properties"
     echo $ARGS > runtime.properties
+    echo "Writing pramaters to file ${localDir}/../runtime.properties"
     echo $ARGS > ../runtime.properties
+    echo "Writing pramaters to file ${localDir}/../../runtime.properties"
     echo $ARGS > ../../runtime.properties
 }
 
