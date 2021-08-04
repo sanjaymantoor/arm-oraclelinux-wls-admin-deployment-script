@@ -502,7 +502,7 @@
          "name": "be93a897-f205-5faa-8998-a0bb2014a5ac",
          "type": "Microsoft.Resources/deployments",
          "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('adminVMName'), 'newuserscript')]"
+            "runAdminSetup"
          ],
          "properties": {
             "mode": "Incremental",
@@ -520,7 +520,7 @@
          "name": "pid-caa3ea2b-cdec-55ee-8510-854ed10d7ebe",
          "condition": "[if(contains(variables('name_linuxImageOfferSKU'), 'owls-122130-jdk8-ol74'), bool('true'), bool('false'))]",
          "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('adminVMName'), 'newuserscript')]"
+            "runAdminSetup"
          ],
          "properties": {
             "mode": "Incremental",
@@ -538,7 +538,7 @@
          "name": "pid-bf1d0f1a-cb9a-5453-bf70-42b4efe8c15e",
          "condition": "[if(contains(variables('name_linuxImageOfferSKU'), 'from.owls-122130-jdk8-ol73'), bool('true'), bool('false'))]",
          "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('adminVMName'), 'newuserscript')]"
+            "runAdminSetup"
          ],
          "properties": {
             "mode": "Incremental",
